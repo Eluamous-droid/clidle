@@ -7,26 +7,39 @@ import (
 	"github.com/awesome-gocui/gocui"
 )
 
+const ControlView = "ControlView"
+const CurrencyView = "CurrencyView"
+const UpgradeView = "UpgradeView"
+const TitelView = "TitelView"
+
+var viewArr = []string{ControlView,CurrencyView, UpgradeView, "v4"}
+
 func layout(g *gocui.Gui) error {
 	maxX, maxY := g.Size()
-	if v, err := g.SetView(ControlView, 0, 0, maxX/2-1, maxY/2-1, 0); err != nil {
+	bannerHeight := 4
+	if v, err := g.SetView(TitelView, 0, 0, maxX, bannerHeight, 0); err != nil {
 		if !errors.Is(err, gocui.ErrUnknownView) {
 			return err
 		}
-		v.Title = "v1 (editable)"
-		v.Editable = true
+		v.Wrap = true
+		v.Frame = false
+		fmt.Fprintln(v, " __   __        __                __   __   __      ")
+		fmt.Fprintln(v, "/  ` |__)  /\\  |__)    |     /\\  / _` /  \\ /  \\ |\\ |")
+		fmt.Fprintln(v, "\\__, |  \\ /~~\\ |__)    |___ /~~\\ \\__> \\__/ \\__/ | \\|" )
+
+	}
+	if v, err := g.SetView(ControlView, 0, bannerHeight+1, maxX/2-1, maxY/2-1, 0); err != nil {
+		if !errors.Is(err, gocui.ErrUnknownView) {
+			return err
+		}
 		v.Wrap = true
 
-		if _, err = setCurrentViewOnTop(g, ControlView); err != nil {
-			return err
-		}
 	}
 
-	if v, err := g.SetView(CurrencyView, maxX/2-1, 0, maxX-1, maxY/2-1, 0); err != nil {
+	if v, err := g.SetView(CurrencyView, maxX/2-1, bannerHeight+1, maxX-1, maxY/2-1, 0); err != nil {
 		if !errors.Is(err, gocui.ErrUnknownView) {
 			return err
 		}
-		v.Title = "v2"
 		v.Wrap = true
 		v.Autoscroll = true
 		fmt.Fprint(v, ctr)
@@ -35,7 +48,6 @@ func layout(g *gocui.Gui) error {
 		if !errors.Is(err, gocui.ErrUnknownView) {
 			return err
 		}
-		v.Title = "v3"
 		v.Wrap = true
 		v.Autoscroll = true
 		fmt.Fprint(v, "Press TAB to change current view")
@@ -44,8 +56,6 @@ func layout(g *gocui.Gui) error {
 		if !errors.Is(err, gocui.ErrUnknownView) {
 			return err
 		}
-		v.Title = "v4 (editable)"
-		v.Editable = true
 	}
 	return nil
 }

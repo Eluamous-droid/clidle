@@ -11,12 +11,8 @@ import (
 )
 
 const NumGoroutines = 1
-const ControlView = "ControlView"
-const CurrencyView = "CurrencyView"
-const UpgradeView = "UpgradeView"
 
 var (
-	viewArr = []string{ControlView,CurrencyView, UpgradeView, "v4"}
 	active  = 0
 
 	done = make(chan struct{})
