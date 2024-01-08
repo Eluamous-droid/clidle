@@ -1,14 +1,10 @@
 module clidle
 
-go 1.21.5
+go 1.18
 
-require github.com/gdamore/tcell/v2 v2.7.0
+require github.com/gdamore/tcell/v2 v2.7.0 // indirect
 
-require (
-	codeberg.org/anaseto/gruid v0.23.0
-	codeberg.org/anaseto/gruid-tcell v0.3.0
-	github.com/awesome-gocui/gocui v1.1.0
-)
+require github.com/awesome-gocui/gocui v1.1.0
 
 require (
 	github.com/gdamore/encoding v1.0.0 // indirect
