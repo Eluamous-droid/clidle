@@ -19,7 +19,8 @@ var (
 	wg   sync.WaitGroup
 
 	mu  sync.Mutex // protects ctr
-	ctr = 0
+	bankAmount = 0
+	income = 1
 )
 
 func main() {
@@ -44,6 +45,12 @@ func main() {
 	}
 }
 
+func increaseIncome(amount int){
+
+income += amount
+
+}
+
 
 func counter(g *gocui.Gui) {
 	defer wg.Done()
@@ -54,8 +61,8 @@ func counter(g *gocui.Gui) {
 			return
 		case <-time.After(500 * time.Millisecond):
 			mu.Lock()
-			n := ctr
-			ctr++
+			n := bankAmount
+			bankAmount += income
 			mu.Unlock()
 
 			g.Update(func(g *gocui.Gui) error {

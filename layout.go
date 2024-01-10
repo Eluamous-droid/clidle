@@ -42,7 +42,7 @@ func layout(g *gocui.Gui) error {
 		}
 		v.Wrap = true
 		v.Autoscroll = true
-		fmt.Fprint(v, ctr)
+		fmt.Fprint(v, bankAmount)
 	}
 	if v, err := g.SetView(UpgradeView, 0, maxY/2-1, maxX/2-1, maxY-1, 0); err != nil {
 		if !errors.Is(err, gocui.ErrUnknownView) {
@@ -52,7 +52,7 @@ func layout(g *gocui.Gui) error {
 		v.Autoscroll = true
 		fmt.Fprint(v, "Press TAB to change current view")
 	}
-	if v, err := g.SetView("v4", maxX/2, maxY/2, maxX-1, maxY-1, 0); err != nil {
+	if _, err := g.SetView("v4", maxX/2, maxY/2, maxX-1, maxY-1, 0); err != nil {
 		if !errors.Is(err, gocui.ErrUnknownView) {
 			return err
 		}
