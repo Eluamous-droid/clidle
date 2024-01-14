@@ -1,14 +1,18 @@
-package main 
+package main
 
-type crab struct{
-	name string
-	cost int
+type Crab struct {
+	name       string
+	cost       int
 	production int
+	count int
 }
 
-const incrementAmount = 5 
+const incrementAmount = 5
 
-func (c crab) buyCrab(){
-	c.cost = int(c.cost + incrementAmount)	
+func (c *Crab) buyCrab() {
+	c.cost = int(c.cost + incrementAmount)
+	c.count++
 	increaseIncome(c.production)
+
 }
+
