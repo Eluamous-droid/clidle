@@ -2,7 +2,6 @@ package main
 
 import (
 	"errors"
-	"fmt"
 	"log"
 	"sync"
 	"time"
@@ -13,15 +12,15 @@ import (
 const NumGoroutines = 1
 
 var (
-	active  = 0
+	active = 0
 
-	CrabWorkers = []*Crab{{name: "peacrab", cost: 5,production: 1, count: 1}, {name: "Sand Crab", cost: 10,production: 10},{name: "King Crab", cost: 100,production: 100},{name: "King Crab3", cost: 100,production: 100},{name: "King Crab4", cost: 100,production: 100},{name: "King Crab5", cost: 100,production: 100}}
-	done = make(chan struct{})
-	wg   sync.WaitGroup
+	CrabWorkers = []*Crab{{name: "peacrab", cost: 5, production: 1, count: 1}, {name: "Sand Crab", cost: 10, production: 5}, {name: "King Crab", cost: 100, production: 50}, {name: "King Crab3", cost: 100, production: 100}, {name: "King Crab4", cost: 100, production: 100}, {name: "King Crab5", cost: 100, production: 100}}
+	done        = make(chan struct{})
+	wg          sync.WaitGroup
 
-	mu  sync.Mutex // protects ctr
+	mu         sync.Mutex // protects ctr
 	bankAmount int
-	income = 1
+	income     = 1
 )
 
 func main() {
@@ -47,20 +46,19 @@ func main() {
 	}
 }
 
-func increaseIncome(amount int){
+func increaseIncome(amount int) {
 
-income += amount
+	income += amount
 
 }
-func SpendMoney(cost int) bool{
+func SpendMoney(cost int) bool {
 	currentBank := &bankAmount
-	if cost < *currentBank{
+	if cost < *currentBank {
 		bankAmount -= cost
 		return true
 	}
 	return false
 }
-
 
 func counter(g *gocui.Gui, income *int, bankAmount *int) {
 	defer wg.Done()
@@ -73,18 +71,10 @@ func counter(g *gocui.Gui, income *int, bankAmount *int) {
 			mu.Lock()
 			*bankAmount += *income
 			mu.Unlock()
-			
+
 			showWorkers(g)
 
-			g.Update(func(g *gocui.Gui) error {
-				v, err := g.View(CurrencyView)
-				if err != nil {
-					return err
-				}
-				v.Clear()
-				fmt.Fprintln(v, *bankAmount)
-				return nil
-			})
+			showCurrency(g)
 		}
 	}
 }
