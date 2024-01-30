@@ -23,7 +23,6 @@ func layout(g *gocui.Gui) error {
 		if !errors.Is(err, gocui.ErrUnknownView) {
 			return err
 		}
-		v.Wrap = true
 		v.Frame = false
 		fmt.Fprintln(v, " __   __        __                __   __   __      ")
 		fmt.Fprintln(v, "/  ` |__)  /\\  |__)    |     /\\  / _` /  \\ /  \\ |\\ |")
@@ -46,11 +45,11 @@ func layout(g *gocui.Gui) error {
 		v.Wrap = true
 		showCurrency(g)
 	}
-	if v, err := g.SetView(UpgradeView, 0, maxY/2-1, maxX/2-1, maxY-1, 0); err != nil {
+	if _, err := g.SetView(UpgradeView, 0, maxY/2-1, maxX/2-1, maxY-1, 0); err != nil {
 		if !errors.Is(err, gocui.ErrUnknownView) {
 			return err
 		}
-		fmt.Fprint(v, "Press TAB to change current view")
+		showShop(g)
 	}
 	if _, err := g.SetView(WorkerView, maxX/2, bannerHeight+1, maxX-1, maxY-1, 0); err != nil {
 		if !errors.Is(err, gocui.ErrUnknownView) {
@@ -94,5 +93,36 @@ func showWorkers(g *gocui.Gui) {
 		}
 		return nil
 	})
+
+}
+
+
+func showShop(g *gocui.Gui){
+
+	g.Update(func(g *gocui.Gui) error {
+		v, err := g.View(WorkerView)
+		if err != nil {
+			return err
+		}
+		v.Clear()
+		fmt.Fprintln(v, "Press letter to purchase")
+		return nil
+	})
+}
+
+
+func showInstructions(g *gocui.Gui){
+
+	g.Update(func(g *gocui.Gui) error {
+		v, err := g.View(WorkerView)
+		if err != nil {
+			return err
+		}
+		v.Clear()
+		fmt.Fprintln(v, "Put instructions here")
+		fmt.Fprintln(v, "Figure out controls first")
+		return nil
+	})
+
 
 }

@@ -9,7 +9,7 @@ type Crab struct {
 	count int
 }
 
-const incrementAmount = 1.05
+const incrementAmount = 1.25
 
 func (c *Crab) buyCrab() {
 	c.cost = int(math.Ceil(float64(c.cost) * incrementAmount))
