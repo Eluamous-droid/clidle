@@ -12,7 +12,6 @@ import (
 const NumGoroutines = 1
 
 var (
-	active = 0
 
 	CrabWorkers = []*Crab{{name: "peacrab", cost: 5, production: 1, count: 1}, {name: "Sand Crab", cost: 10, production: 5}, {name: "King Crab", cost: 100, production: 50}, {name: "King Crab3", cost: 100, production: 100}, {name: "King Crab4", cost: 100, production: 100}, {name: "King Crab5", cost: 100, production: 100}}
 	done        = make(chan struct{})
@@ -30,9 +29,6 @@ func main() {
 	}
 	defer g.Close()
 
-	g.Highlight = true
-	g.Cursor = true
-	g.SelFgColor = gocui.ColorGreen
 
 	g.SetManagerFunc(layout)
 

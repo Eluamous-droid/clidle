@@ -1,5 +1,7 @@
 package main
 
+import "math"
+
 type Crab struct {
 	name       string
 	cost       int
@@ -7,10 +9,10 @@ type Crab struct {
 	count int
 }
 
-const incrementAmount = 5
+const incrementAmount = 1.05
 
 func (c *Crab) buyCrab() {
-	c.cost = int(c.cost + incrementAmount)
+	c.cost = int(math.Ceil(float64(c.cost) * incrementAmount))
 	c.count++
 	increaseIncome(c.production)
 
